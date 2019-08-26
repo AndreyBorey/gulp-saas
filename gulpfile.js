@@ -1,7 +1,8 @@
 let gulp        = require('gulp'),
     sass        = require('gulp-sass')
+    cleanCSS    = require('gulp-clean-css')
     browserSync = require('browser-sync')
-
+    rename      = require('gulp-rename')
 
 //  ТАСКИ
 
@@ -25,6 +26,8 @@ gulp.task('scripts', () => {                       // обновление ст�
 gulp.task('sass', async () => {                    // Создаем таск "sass"
     return gulp.src('app/sass/**/*.sass')          // Берем все sass файлы из папки sass и дочерних, если таковые будут
         .pipe(sass())                              // Преобразуем Sass в CSS посредством gulp-sass
+        .pipe(cleanCSS())                          // минификация css
+        .pipe(rename({suffix: '.min'}))            // добавляем суффикс .min
         .pipe(gulp.dest('app/css'))                // Выгружаем результатs в папку app/css
         .pipe(browserSync.reload({stream: true}))  // Обновляем страницу чтобы отобразить изменения
 } )
